@@ -8,6 +8,8 @@ import numpy as np
 from Responses import responses
 import random
 import re
+from Comforting import comforts
+from YesorNo import yesOrNo
 
 data = pd.read_csv('train.csv', sep=";")  
 print(data.head())
@@ -44,12 +46,39 @@ def predict_intent(message, threshold=0.35):
         return predicted_intent
     else:
         return "I'm not sure about that. Can you please elaborate?"
-
+reason_found=False
+question_type = False
 def bot_reply(message):
+    global reason_found
+    global question_type
+    
+    print(question_type)
+    
+    if("yes" in message.lower()):
+        return np.random.choice(yesOrNo["yes_responses"])
+    elif("no" in message.lower()):
+        return np.random.choice(yesOrNo["no_responses"])
+
     intent = predict_intent(message)
+    if(reason_found):
+        for(intents,comfort) in comforts.items():
+            if intents == intent:
+                resp= np.random.choice(comfort)
+                if(re.search(r'\b(?:why|how|what|when|where|who)\b', resp.lower())):
+                    question_type = True
+                else:
+                    question_type = False
+                return resp
+
     for(intents, response) in responses.items():
         if intents == intent:
-            return np.random.choice(response)
+            reason_found=True
+            resp= np.random.choice(response)
+            if(re.search(r'\b(?:why|how|what|when|where|who)\b', resp.lower())):
+                question_type = True
+            else:
+                question_type = False
+            return resp
     return np.random.choice(responses["default"])
 common_questions = {
     "who are you": "I am a virtual assistant here to help you.",
@@ -72,9 +101,10 @@ while True:
         break
     if any(word in rply.lower() for word in greet):
         print(np.random.choice(responses["greetings"]))
+        continue
     common_response = handle_common_questions(rply)
     if common_response:
         print(f"BOT: {common_response}")
         continue
+    
     print("BOT :",bot_reply(rply))
-
