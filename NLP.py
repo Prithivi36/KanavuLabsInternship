@@ -10,6 +10,9 @@ import random
 import re
 from Comforting import comforts
 from YesorNo import yesOrNo
+from SpeechInput import get_audio_input
+from SpeechOutput import text_to_speech
+from ideas import ideas_list
 
 data = pd.read_csv('train.csv', sep=";")  
 print(data.head())
@@ -42,32 +45,23 @@ def predict_intent(message, threshold=0.35):
     probabilities = model.predict_proba([message])[0]
     max_prob_index = np.argmax(probabilities)
     predicted_intent = model.classes_[max_prob_index]
+    print(predicted_intent)
+    print(probabilities)
     if probabilities[max_prob_index] >= threshold:
         return predicted_intent
     else:
         return "I'm not sure about that. Can you please elaborate?"
 reason_found=False
-question_type = False
 def bot_reply(message):
     global reason_found
-    global question_type
     
-    print(question_type)
-    
-    if("yes" in message.lower()):
-        return np.random.choice(yesOrNo["yes_responses"])
-    elif("no" in message.lower()):
-        return np.random.choice(yesOrNo["no_responses"])
-
     intent = predict_intent(message)
     if(reason_found):
         for(intents,comfort) in comforts.items():
             if intents == intent:
                 resp= np.random.choice(comfort)
-                if(re.search(r'\b(?:why|how|what|when|where|who)\b', resp.lower())):
-                    question_type = True
-                else:
-                    question_type = False
+                ideation=np.random.choice(ideas_list[intents])
+                resp=resp+"\n"+ideation
                 return resp
 
     for(intents, response) in responses.items():
@@ -78,6 +72,7 @@ def bot_reply(message):
                 question_type = True
             else:
                 question_type = False
+            
             return resp
     return np.random.choice(responses["default"])
 common_questions = {
@@ -95,16 +90,24 @@ def handle_common_questions(message):
     return False
 
 while True:
-    rply = input("User : ")
+    rply = get_audio_input()
+    print("User :",rply)
+    if rply is None:
+        continue
     if any(word in rply for word in exit_words):
+        text_to_speech("Goodbye!")
         print("BOT: Goodbye!")
         break
     if any(word in rply.lower() for word in greet):
-        print(np.random.choice(responses["greetings"]))
+        randomz=(np.random.choice(responses["greetings"]))
+        text_to_speech(randomz)
+        print(f"BOT: {randomz}")
         continue
     common_response = handle_common_questions(rply)
     if common_response:
+        text_to_speech(common_response)
         print(f"BOT: {common_response}")
         continue
-    
-    print("BOT :",bot_reply(rply))
+    bot_rply=bot_reply(rply)
+    text_to_speech(bot_rply)
+    print("BOT :",bot_rply)
