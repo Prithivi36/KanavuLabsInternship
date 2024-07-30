@@ -13,6 +13,7 @@ from YesorNo import yesOrNo
 from SpeechInput import get_audio_input
 from SpeechOutput import text_to_speech
 from ideas import ideas_list
+from QuestionHandler import predict_intent, bot_reply_ques
 
 data = pd.read_csv('train.csv', sep=";")  
 print(data.head())
@@ -68,11 +69,6 @@ def bot_reply(message):
         if intents == intent:
             reason_found=True
             resp= np.random.choice(response)
-            if(re.search(r'\b(?:why|how|what|when|where|who)\b', resp.lower())):
-                question_type = True
-            else:
-                question_type = False
-            
             return resp
     return np.random.choice(responses["default"])
 common_questions = {
@@ -89,10 +85,64 @@ def handle_common_questions(message):
             return response
     return False
 
+def is_question(sentence):
+    """
+    Detect if a sentence is a question based on common question patterns.
+    """
+    sentence = sentence.lower()
+    
+    question_patterns = [
+        r'\bwho\b',
+        r'\bwhat\b',
+        r'\bwhere\b',
+        r'\bwhen\b',
+        r'\bwhy\b',
+        r'\bhow do\b',
+        r'\bhow are\b',
+        r'\bhow did\b',
+        r'\bhow does\b',
+        r'^can\b',
+        r'^do\b',
+        r'^did\b',
+        r'^will\b',
+        r'^would\b',
+        r'^should\b',
+        r'^could\b',
+        r'^is\b',
+        r'^are\b',
+        r'^do\b',
+        r'^does\b',
+        r'^can\b',
+        r'^could\b',
+        r'^will\b',
+        r'^would\b',
+        r'^shall\b',
+        r'^should\b',
+        r'^has\b',
+        r'^have\b',
+        r'^had\b',
+        r'^was\b',
+        r'^were\b'
+    ]
+    
+    for pattern in question_patterns:
+        if re.search(pattern, sentence):
+            return True
+
+    return False
+
+
 while True:
-    rply = get_audio_input()
+    # rply = get_audio_input()
+    # print("User :",rply)
+    rply = input("User: ")
     print("User :",rply)
     if rply is None:
+        continue
+    if(is_question(rply)):
+        bot_rply=bot_reply_ques(rply)
+        text_to_speech(bot_rply)
+        print("BOT :",bot_rply)
         continue
     if any(word in rply for word in exit_words):
         text_to_speech("Goodbye!")
