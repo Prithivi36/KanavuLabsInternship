@@ -1,13 +1,19 @@
 package com.incubator.Virtual.Incubator.ServiceImplementation;
 
 import com.incubator.Virtual.Incubator.Dto.MentorDto;
+import com.incubator.Virtual.Incubator.Entity.Aspirant;
 import com.incubator.Virtual.Incubator.Entity.Mentor;
+import com.incubator.Virtual.Incubator.Entity.Requests;
+import com.incubator.Virtual.Incubator.Exception.ExceptionDetail;
+import com.incubator.Virtual.Incubator.Repository.AspirantRepository;
 import com.incubator.Virtual.Incubator.Repository.MentorRepository;
 import com.incubator.Virtual.Incubator.Service.MentorService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -15,6 +21,7 @@ import java.util.List;
 public class MentorServiceImpl implements MentorService {
     ModelMapper modelMapper;
     MentorRepository mentorRepository;
+    AspirantRepository aspirantRepository;
     @Override
     public String saveMentor(MentorDto mentorDto) {
         mentorRepository.save(modelMapper.map(mentorDto, Mentor.class));
@@ -29,5 +36,16 @@ public class MentorServiceImpl implements MentorService {
     @Override
     public List<MentorDto> getAllMentors() {
         return mentorRepository.findAll().stream().map((ment)->modelMapper.map(ment,MentorDto.class)).toList();
+    }
+
+    public String mentorOffer(Long aspId,Long mntId){
+        Aspirant aspirant=aspirantRepository.findById(aspId).orElseThrow(()->new ExceptionDetail(HttpStatus.NOT_FOUND,"User with id does not exist"));
+        Requests requests=new Requests();
+        requests.setMntId(mntId);
+        requests.setMessage("Wants to be your mentor");
+        requests.setDateTime(LocalDateTime.now());
+        aspirant.getRequests().add(requests);
+        aspirantRepository.save(aspirant);
+        return "Successfully sent Request";
     }
 }

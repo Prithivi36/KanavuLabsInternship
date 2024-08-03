@@ -1,6 +1,7 @@
 package com.incubator.Virtual.Incubator.Dto;
 
 import com.incubator.Virtual.Incubator.Entity.Mentor;
+import com.incubator.Virtual.Incubator.Entity.Requests;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,5 +26,6 @@ public class AspirantDto {
     private int otp;
     private String about;
     private List<Mentor> mentors;
+    private List<Requests> requests;
 
 }

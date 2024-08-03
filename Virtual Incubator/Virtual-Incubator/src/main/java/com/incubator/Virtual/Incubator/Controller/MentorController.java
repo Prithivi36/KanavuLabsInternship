@@ -29,4 +29,8 @@ public class MentorController {
     public ResponseEntity<List<MentorDto>> getAllAspirants() {
         return ResponseEntity.ok(mentorService.getAllMentors());
     }
+    @PostMapping("mnt/offer/{asp}/{mnt}")
+    public ResponseEntity<String> offerMentorShip(@PathVariable("asp") Long aspId,@PathVariable("mnt") Long mntId){
+        return ResponseEntity.ok(mentorService.mentorOffer(aspId, mntId));
+    }
 }

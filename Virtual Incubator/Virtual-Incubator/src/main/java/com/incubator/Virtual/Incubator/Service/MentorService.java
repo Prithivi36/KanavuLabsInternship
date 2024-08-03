@@ -11,4 +11,5 @@ public interface MentorService {
     String saveMentor(MentorDto mentorDto);
     MentorDto getMentor(Long id);
     List<MentorDto> getAllMentors();
+    String mentorOffer(Long aspId,Long mntId);
 }

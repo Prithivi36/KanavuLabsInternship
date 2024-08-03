@@ -1,6 +1,11 @@
 package com.incubator.Virtual.Incubator.Controller;
 
 import com.incubator.Virtual.Incubator.Dto.AspirantDto;
+import com.incubator.Virtual.Incubator.Dto.RequestsDto;
+import com.incubator.Virtual.Incubator.Entity.Aspirant;
+import com.incubator.Virtual.Incubator.Entity.Mentor;
+import com.incubator.Virtual.Incubator.Entity.Requests;
+import com.incubator.Virtual.Incubator.Repository.AspirantRepository;
 import com.incubator.Virtual.Incubator.Service.AspirantService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,21 +18,28 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@RequestMapping("/asp")
 public class AspirantController {
 
     AspirantService aspirantService;
+    AspirantRepository aspirantRepository;
 
-    @PostMapping("/asp/new")
+    @PostMapping("/new")
     public ResponseEntity<String> saveAspirant(@RequestBody AspirantDto aspirantDto) {
         return new ResponseEntity<>(aspirantService.saveAspirant(aspirantDto), HttpStatus.CREATED);
     }
 
-    @GetMapping("/asp/get/{id}")
+    @GetMapping("/get/{id}")
     public ResponseEntity<AspirantDto> getAspirant(@PathVariable("id") Long id) {
         return ResponseEntity.ok(aspirantService.getAspirant(id));
     }
-    @GetMapping("/asp/all")
+    @GetMapping("/all")
     public ResponseEntity<List<AspirantDto>> getAllAspirants() {
         return ResponseEntity.ok(aspirantService.getAllAspirants());
+    }
+
+    @GetMapping("/rqst/{id}")
+    public ResponseEntity<List<RequestsDto<Mentor>>> getAllRequests(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(aspirantService.viewMentorOffers(id));
     }
 }
