@@ -25,8 +25,8 @@ y_train = data['intent']
 X_test= data_test['text']
 y_test= data_test['intent']
 
-exit_words = ["exit", "quit", "bye", "goodbye", "stop"]
-greet=["hi","hello","hola","hello there","hey","hey there","hi there","hello!","hi!","hey!","hey there!","hi there!","hello there!","hola!"]
+exit_words = ["exit", "quit", "bye", "goodbye"]
+greet=["hi","hello","hola","hey","hi chatbot","hello chatbot","hola chatbot","hey chatbot"]
 
 model = make_pipeline(
     TfidfVectorizer(),
@@ -86,21 +86,21 @@ def handle_common_questions(message):
     return False
 
 def is_question(sentence):
-    """
-    Detect if a sentence is a question based on common question patterns.
-    """
+    
     sentence = sentence.lower()
     
     question_patterns = [
-        r'\bwho\b',
-        r'\bwhat\b',
-        r'\bwhere\b',
-        r'\bwhen\b',
-        r'\bwhy\b',
-        r'\bhow do\b',
-        r'\bhow are\b',
-        r'\bhow did\b',
-        r'\bhow does\b',
+        r'^who\b',
+        r'^you sure\b',
+        r'^youre sure\b',
+        r'^what\b',
+        r'^where\b',
+        r'^when\b',
+        r'^why\b',
+        r'^how do\b',
+        r'^how are\b',
+        r'^how did\b',
+        r'^how does\b',
         r'^can\b',
         r'^do\b',
         r'^did\b',
@@ -133,10 +133,10 @@ def is_question(sentence):
 
 
 while True:
-    # rply = get_audio_input()
-    # print("User :",rply)
-    rply = input("User: ")
+    rply = get_audio_input()
     print("User :",rply)
+    # rply = input("User: ")
+    # print("User :",rply)
     if rply is None:
         continue
     if(is_question(rply)):
@@ -148,8 +148,8 @@ while True:
         text_to_speech("Goodbye!")
         print("BOT: Goodbye!")
         break
-    if any(word in rply.lower() for word in greet):
-        randomz=(np.random.choice(responses["greetings"]))
+    if any(re.fullmatch(r'\b{}\b'.format(word), rply.lower()) for word in greet):
+        randomz = np.random.choice(responses["greetings"])
         text_to_speech(randomz)
         print(f"BOT: {randomz}")
         continue
