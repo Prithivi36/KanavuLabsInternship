@@ -22,7 +22,7 @@ public class MentorDto {
     private String district;
     private String position;
     private String organization;
-    private String otp;
+    private int otp;
     private String about;
     private List<Aspirant> aspirants;
 

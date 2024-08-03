@@ -26,7 +26,7 @@ public class Mentor {
     private String district;
     private String position;
     private String organization;
-    private String otp;
+    private int otp;
     private String about;
     @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinTable(
@@ -35,4 +35,6 @@ public class Mentor {
             inverseJoinColumns = @JoinColumn(name = "aspirantId",referencedColumnName = "id")
     )
     private List<Aspirant> aspirants;
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    private StartupProfile startupProfile;
 }

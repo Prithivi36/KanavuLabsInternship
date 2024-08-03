@@ -26,9 +26,11 @@ public class Aspirant {
     private String district;
     private String position;
     private String organization;
-    private String otp;
+    private int otp;
     private String about;
     @ManyToMany(mappedBy = "aspirants")
     @JsonIgnore
     private List<Mentor> mentors;
+    @OneToOne(cascade = CascadeType.ALL)
+    private StartupProfile startupProfile;
 }
