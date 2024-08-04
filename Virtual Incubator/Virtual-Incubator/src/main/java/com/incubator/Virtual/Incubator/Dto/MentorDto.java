@@ -1,5 +1,6 @@
 package com.incubator.Virtual.Incubator.Dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.incubator.Virtual.Incubator.Entity.Aspirant;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

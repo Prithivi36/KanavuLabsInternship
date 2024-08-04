@@ -26,6 +26,4 @@ public class AspirantDto {
     private int otp;
     private String about;
     private List<Mentor> mentors;
-    private List<Requests> requests;
-
 }

@@ -1,5 +1,7 @@
 package com.incubator.Virtual.Incubator.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -34,6 +36,7 @@ public class Mentor {
             joinColumns = @JoinColumn(name = "mentorId",referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "aspirantId",referencedColumnName = "id")
     )
+    @JsonIgnore
     private List<Aspirant> aspirants;
     @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private StartupProfile startupProfile;

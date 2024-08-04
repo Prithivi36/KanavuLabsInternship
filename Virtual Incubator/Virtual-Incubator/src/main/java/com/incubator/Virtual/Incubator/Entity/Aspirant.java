@@ -38,5 +38,6 @@ public class Aspirant {
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name = "asp",referencedColumnName = "id")
+    @JsonIgnore
     private List<Requests> requests;
 }
