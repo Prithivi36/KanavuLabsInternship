@@ -43,6 +43,8 @@ public class MentorServiceImpl implements MentorService {
         Requests requests=new Requests();
         requests.setMntId(mntId);
         requests.setMessage("Wants to be your mentor");
+        requests.setAspId(aspId);
+        requests.setStatus(false);
         requests.setDateTime(LocalDateTime.now());
         aspirant.getRequests().add(requests);
         aspirantRepository.save(aspirant);

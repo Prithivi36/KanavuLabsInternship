@@ -1,6 +1,7 @@
 package com.incubator.Virtual.Incubator.Controller;
 
 import com.incubator.Virtual.Incubator.Dto.AspirantDto;
+import com.incubator.Virtual.Incubator.Dto.MentorDto;
 import com.incubator.Virtual.Incubator.Dto.RequestsDto;
 import com.incubator.Virtual.Incubator.Entity.Aspirant;
 import com.incubator.Virtual.Incubator.Entity.Mentor;
@@ -41,5 +42,10 @@ public class AspirantController {
     @GetMapping("/rqst/{id}")
     public ResponseEntity<List<RequestsDto<Mentor>>> getAllRequests(@PathVariable("id") Long id) {
         return ResponseEntity.ok(aspirantService.viewMentorOffers(id));
+    }
+
+    @PutMapping("/accept/{id}")
+    public ResponseEntity<String> acceptMentorOffers(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(aspirantService.acceptMentorOffer(id));
     }
 }

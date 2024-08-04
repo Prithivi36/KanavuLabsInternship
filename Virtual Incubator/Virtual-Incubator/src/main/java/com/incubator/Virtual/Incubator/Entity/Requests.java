@@ -23,4 +23,6 @@ public class Requests {
     private LocalDateTime dateTime;
     private Long mntId;
     private Long aspId;
+    private boolean status;
+
 }
