@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RequestRepository extends JpaRepository<Requests,Long> {
+    Requests findByAspIdAndMntId(Long aspId,Long mntId);
 }

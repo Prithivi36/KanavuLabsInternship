@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -25,5 +26,5 @@ public class AspirantDto {
     private String organization;
     private int otp;
     private String about;
-    private List<Mentor> mentors;
+    private Set<Mentor> mentors;
 }

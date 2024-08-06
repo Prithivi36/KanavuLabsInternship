@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -31,12 +32,12 @@ public class Aspirant {
 
     @ManyToMany(mappedBy = "aspirants")
     @JsonIgnore
-    private List<Mentor> mentors;
+    private Set<Mentor> mentors;
 
     @OneToOne(cascade = CascadeType.ALL)
     private StartupProfile startupProfile;
 
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "asp",referencedColumnName = "id")
     @JsonIgnore
     private List<Requests> requests;

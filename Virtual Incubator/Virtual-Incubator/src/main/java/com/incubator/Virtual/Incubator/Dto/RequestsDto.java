@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class RequestsDto<T> {
     T person;
+    Long rqstId;
     String message;
     LocalDateTime dateTime;
 }

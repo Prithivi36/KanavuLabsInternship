@@ -12,8 +12,8 @@ public class VirtualIncubatorApplication {
 	public ModelMapper getModelMapper() {
 		return new ModelMapper();
 	}
+
 	public static void main(String[] args) {
 		SpringApplication.run(VirtualIncubatorApplication.class, args);
 	}
-
 }

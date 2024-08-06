@@ -10,6 +10,7 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -37,7 +38,7 @@ public class Mentor {
             inverseJoinColumns = @JoinColumn(name = "aspirantId",referencedColumnName = "id")
     )
     @JsonIgnore
-    private List<Aspirant> aspirants;
+    private Set<Aspirant> aspirants;
     @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private StartupProfile startupProfile;
 }
