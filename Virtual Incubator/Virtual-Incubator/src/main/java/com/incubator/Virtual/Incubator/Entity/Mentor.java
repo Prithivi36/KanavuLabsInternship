@@ -41,4 +41,9 @@ public class Mentor {
     private Set<Aspirant> aspirants;
     @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private StartupProfile startupProfile;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "mnt",referencedColumnName = "id")
+    @JsonIgnore
+    private List<Requests> requests;
 }

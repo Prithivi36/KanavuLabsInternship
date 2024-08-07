@@ -48,4 +48,9 @@ public class AspirantController {
     public ResponseEntity<String> acceptMentorOffers(@PathVariable("id") Long id) {
         return ResponseEntity.ok(aspirantService.acceptMentorOffer(id));
     }
+
+    @PostMapping("/rqst/{mntId}/{aspId}")
+    public ResponseEntity<String> requestMentorShip(@PathVariable("mntId")Long mntId,@PathVariable("aspId")Long aspId){
+        return ResponseEntity.ok(aspirantService.requestMentorship(mntId, aspId));
+    }
 }

@@ -1,6 +1,8 @@
 package com.incubator.Virtual.Incubator.ServiceImplementation;
 
+import com.incubator.Virtual.Incubator.Dto.AspirantDto;
 import com.incubator.Virtual.Incubator.Dto.MentorDto;
+import com.incubator.Virtual.Incubator.Dto.RequestsDto;
 import com.incubator.Virtual.Incubator.Entity.Aspirant;
 import com.incubator.Virtual.Incubator.Entity.Mentor;
 import com.incubator.Virtual.Incubator.Entity.Requests;
@@ -60,5 +62,22 @@ public class MentorServiceImpl implements MentorService {
             aspirantRepository.save(aspirant);
             return "Successfully sent Request";
         }
+    }
+
+    public List<RequestsDto<Aspirant>> viewMentorRequest(Long id){
+        List<Requests> request= aspirantRepository.findById(id).orElseThrow(
+                        ()->new ExceptionDetail(HttpStatus.NOT_FOUND,"Aspirant not found"))
+                .getRequests();
+
+        List<RequestsDto<Aspirant>> rqstDto= request.stream().map((rqst)->{
+            RequestsDto<Aspirant> modified=new RequestsDto<>();
+            modified.setPerson(aspirantRepository.findById(rqst.getAspId()).orElseThrow(
+                    ()->new ExceptionDetail(HttpStatus.NOT_FOUND,"Aspirant not found")));
+            modified.setMessage(rqst.getMessage());
+            modified.setDateTime(rqst.getDateTime());
+            modified.setRqstId(rqst.getId());
+            return modified;
+        }).toList();
+        return rqstDto;
     }
 }

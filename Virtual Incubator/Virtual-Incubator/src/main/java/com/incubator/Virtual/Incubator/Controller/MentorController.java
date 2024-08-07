@@ -2,6 +2,8 @@ package com.incubator.Virtual.Incubator.Controller;
 
 import com.incubator.Virtual.Incubator.Dto.AspirantDto;
 import com.incubator.Virtual.Incubator.Dto.MentorDto;
+import com.incubator.Virtual.Incubator.Dto.RequestsDto;
+import com.incubator.Virtual.Incubator.Entity.Aspirant;
 import com.incubator.Virtual.Incubator.Service.AspirantService;
 import com.incubator.Virtual.Incubator.Service.MentorService;
 import lombok.AllArgsConstructor;
@@ -29,8 +31,13 @@ public class MentorController {
     public ResponseEntity<List<MentorDto>> getAllAspirants() {
         return ResponseEntity.ok(mentorService.getAllMentors());
     }
-    @PostMapping("mnt/offer/{asp}/{mnt}")
+    @PostMapping("/mnt/offer/{asp}/{mnt}")
     public ResponseEntity<String> offerMentorShip(@PathVariable("asp") Long aspId,@PathVariable("mnt") Long mntId){
         return ResponseEntity.ok(mentorService.mentorOffer(aspId, mntId));
+    }
+
+    @GetMapping("/mnt/rqst/{id}")
+    public ResponseEntity<List<RequestsDto<Aspirant>>> viewMentorRequests(@PathVariable("id") Long id){
+        return ResponseEntity.ok(mentorService.viewMentorRequest(id));
     }
 }

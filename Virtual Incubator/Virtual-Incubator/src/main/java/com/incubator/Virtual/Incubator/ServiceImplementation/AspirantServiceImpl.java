@@ -17,6 +17,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -88,6 +89,32 @@ public class AspirantServiceImpl implements AspirantService {
         requestRepository.deleteById(id);
 
         return "Successfully accepted mentor";
+    }
+
+    public String requestMentorship(Long mntId,Long aspId) {
+        Mentor mentor = mentorRepository.findById(mntId).orElseThrow(
+                () -> new ExceptionDetail(HttpStatus.NOT_FOUND, "Mentor Id is wrong")
+        );
+        Aspirant aspirant = aspirantRepository.findById(aspId).orElseThrow(
+                () -> new ExceptionDetail(HttpStatus.NOT_FOUND, "Aspirant Id is wrong")
+        );
+
+        Requests request = requestRepository.findByAspIdAndMntId(aspId, mntId);
+        if (request != null) {
+            throw new ExceptionDetail(HttpStatus.CREATED, "Already You Have Receieved or Sent Request ");
+        } else {
+            Requests requests = new Requests();
+            requests.setMntId(mntId);
+            requests.setMessage("Wants you to be their mentor");
+            requests.setAspId(aspId);
+            requests.setStatus(false);
+            requests.setDateTime(LocalDateTime.now());
+            requestRepository.save(requests);
+
+            mentor.getRequests().add(requests);
+            mentorRepository.save(mentor);
+            return "Successfully Sent Request";
+        }
     }
 
 }
