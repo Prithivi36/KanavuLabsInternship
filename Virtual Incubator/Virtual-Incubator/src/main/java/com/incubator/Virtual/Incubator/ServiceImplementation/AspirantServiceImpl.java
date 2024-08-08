@@ -99,8 +99,7 @@ public class AspirantServiceImpl implements AspirantService {
                 () -> new ExceptionDetail(HttpStatus.NOT_FOUND, "Aspirant Id is wrong")
         );
 
-        Requests request = requestRepository.findByAspIdAndMntId(aspId, mntId);
-        if (request != null) {
+        if (requestRepository.findByAspIdAndMntId(aspId,mntId).isPresent() || acceptedRequestsRepository.findByAspIdAndMntId(aspId,mntId).isPresent()) {
             throw new ExceptionDetail(HttpStatus.CREATED, "Already You Have Receieved or Sent Request ");
         } else {
             Requests requests = new Requests();

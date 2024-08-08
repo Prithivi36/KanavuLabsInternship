@@ -19,25 +19,29 @@ public class MentorController {
     MentorService mentorService;
 
     @PostMapping("/mnt/new")
-    public ResponseEntity<String> saveAspirant(@RequestBody MentorDto mentorDto) {
+    public ResponseEntity<String> saveNewAspirant(@RequestBody MentorDto mentorDto) {
         return new ResponseEntity<>(mentorService.saveMentor(mentorDto), HttpStatus.CREATED);
     }
 
     @GetMapping("/mnt/get/{id}")
-    public ResponseEntity<MentorDto> getAspirant(@PathVariable("id") Long id) {
+    public ResponseEntity<MentorDto> getAspirantById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(mentorService.getMentor(id));
     }
     @GetMapping("/mnt/all")
     public ResponseEntity<List<MentorDto>> getAllAspirants() {
         return ResponseEntity.ok(mentorService.getAllMentors());
     }
-    @PostMapping("/mnt/offer/{asp}/{mnt}")
-    public ResponseEntity<String> offerMentorShip(@PathVariable("asp") Long aspId,@PathVariable("mnt") Long mntId){
+    @PostMapping("/mnt/rqst/asp/{asp}/mnt/{mnt}")
+    public ResponseEntity<String> offerMentorShipToAspirant(@PathVariable("asp") Long aspId,@PathVariable("mnt") Long mntId){
         return ResponseEntity.ok(mentorService.mentorOffer(aspId, mntId));
     }
 
-    @GetMapping("/mnt/rqst/{id}")
+    @GetMapping("/mnt/rqst/get/{id}")
     public ResponseEntity<List<RequestsDto<Aspirant>>> viewMentorRequests(@PathVariable("id") Long id){
         return ResponseEntity.ok(mentorService.viewMentorRequest(id));
+    }
+    @PutMapping("/mnt/accept/{id}")
+    public ResponseEntity<String> acceptRequests(@PathVariable Long id){
+        return ResponseEntity.ok(mentorService.acceptAspirantRequest(id));
     }
 }
