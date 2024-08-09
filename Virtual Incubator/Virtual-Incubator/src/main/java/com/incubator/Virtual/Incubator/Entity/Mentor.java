@@ -28,6 +28,7 @@ public class Mentor {
     private String state;
     private String district;
     private String position;
+    private String type;
     private String organization;
     private int otp;
     private String about;

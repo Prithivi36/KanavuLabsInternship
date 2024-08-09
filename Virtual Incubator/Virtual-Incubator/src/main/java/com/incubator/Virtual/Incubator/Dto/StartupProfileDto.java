@@ -1,23 +1,24 @@
-package com.incubator.Virtual.Incubator.Entity;
+package com.incubator.Virtual.Incubator.Dto;
 
-import jakarta.persistence.*;
+import com.incubator.Virtual.Incubator.Entity.Funding;
+import com.incubator.Virtual.Incubator.Entity.StartupProfile;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class StartupProfile {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class StartupProfileDto {
     private Long id;
     private String startupName;
     private String startupDescription;
@@ -31,11 +32,6 @@ public class StartupProfile {
     private String status;
     private int totalFunding;
     private List<String> feedbacks;
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    @JoinColumn(name = "funding_to",referencedColumnName = "id")
     private List<Funding> fundingDetail;
-
-
-
-
+    private StartupProfile startupProfile;
 }

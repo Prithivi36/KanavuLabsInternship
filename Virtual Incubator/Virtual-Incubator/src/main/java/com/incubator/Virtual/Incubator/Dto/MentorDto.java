@@ -2,6 +2,7 @@ package com.incubator.Virtual.Incubator.Dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.incubator.Virtual.Incubator.Entity.Aspirant;
+import com.incubator.Virtual.Incubator.Entity.StartupProfile;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,9 +24,12 @@ public class MentorDto {
     private String state;
     private String district;
     private String position;
+    private String type;
     private String organization;
     private int otp;
     private String about;
     private Set<Aspirant> aspirants;
+    private StartupProfile startupProfile;
+
 
 }

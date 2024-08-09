@@ -28,13 +28,15 @@ public class Aspirant {
     private String position;
     private String organization;
     private int otp;
+    private String type;
     private String about;
 
     @ManyToMany(mappedBy = "aspirants")
     @JsonIgnore
     private Set<Mentor> mentors;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne()
+    @JoinColumn(name = "id",referencedColumnName = "id")
     private StartupProfile startupProfile;
 
     @OneToMany(fetch = FetchType.EAGER)
