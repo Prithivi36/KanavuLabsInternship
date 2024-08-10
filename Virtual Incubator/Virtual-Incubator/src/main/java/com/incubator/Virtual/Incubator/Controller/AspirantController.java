@@ -18,6 +18,7 @@ import java.util.List;
 public class AspirantController {
 
     AspirantService aspirantService;
+    
     AspirantRepository aspirantRepository;
 
     @PostMapping("/new")
