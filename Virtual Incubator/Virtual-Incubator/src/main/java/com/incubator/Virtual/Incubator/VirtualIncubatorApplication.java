@@ -10,6 +10,7 @@ public class VirtualIncubatorApplication {
 
 	@Bean
 	public ModelMapper getModelMapper() {
+
 		return new ModelMapper();
 	}
 
