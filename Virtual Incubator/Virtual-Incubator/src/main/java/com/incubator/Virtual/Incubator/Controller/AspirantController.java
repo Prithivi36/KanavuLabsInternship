@@ -22,6 +22,7 @@ public class AspirantController {
 
     @PostMapping("/new")
     public ResponseEntity<String> saveAspirant(@RequestBody AspirantDto aspirantDto) {
+        
         return new ResponseEntity<>(aspirantService.saveAspirant(aspirantDto), HttpStatus.CREATED);
     }
 
